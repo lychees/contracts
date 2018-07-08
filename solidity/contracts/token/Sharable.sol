@@ -10,20 +10,38 @@ import './SmartToken.sol';
 
 contract Sharable is SmartToken {
     uint256 sharedPool;
-    mapping(address => uint256) lastTxTime; 
-    mappign(address => uint265) ownedEth;
+	uint256 totalTokenAge;
+	uint256 constant STARTTIME;
 
-    function setShared(address _address) internal {
+    mapping(address => uint256) lastTxTime;
+
+	constructor() public {
+		STARTTIME = now;
+	}
+
+
+    function setShared(address _address) internal returns (bool) {
         uint256 ownedTime;
         uint256 addEth;
+		uint256 amount;
+
         if(lastTxTime[_address] == 0) {
-            lastTxTime[_address] = now;                          
+            lastTxTime[_addr1ess] = now;                          
         } else {
             ownedTime = now.sub(lastTxTime[_address]);
-            addEth = ownedTime.mul(balanceOf(_address));
-            ownedEth[_address] = ownedEth[_address].add(addEth);
+			totalTokenAge = now.sub(STARTTIME).mul(totalSupply());
+            addEth = ownedTime.mul(balanceOf(_address)).mul(sharedPool).div(totalTokenAge);
+
+			amount = addEth;
+			if (amount > 0) {
+				addEth = 0;
+				if(!_address.transfer(amount)) {
+					return false;
+				}
+			}
             lastTxTime[_address] = now; 
         }
+		return true;
     }
 
     function transfer(address _to, uint256 _value) public transferAllowed returns (bool success) {
@@ -34,27 +52,11 @@ contract Sharable is SmartToken {
         return true;
     }
  
-
     function transferFrom(address _from, address _to, uint256 _value) public transfersAllowed returns (bool success) {
         setShared(_from);
         setShared(_to);
 
         assert(super.transferFrom(_from, _to, _value));
         return true;
-    }
-
-    function getEth() public returns (bool) {
-        uint256 amount = ownedEth[msg.sender];
-
-        if(amount > 0) {
-            ownedEth[msg.sender] = 0;
-            uint256 realEth = sharedPool.mul( ownedEth[msg.sender].div(totalSupply().mul(1 day)) );
-            if (!msg.sender.send(realEth)) {
-                ownedEth[msg.sender] = amount;
-                return false;
-            }
-
-        }
-        return true;
-    } 
+	}
 }
