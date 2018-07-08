@@ -43,30 +43,49 @@ library SafeMath {
   /**
   * @dev Adds two numbers, throws on overflow.
   */
-  function add(uint256 a, uint256 b) internal pure returns (uint256) {
-    uint256 c = a + b;
-    assert(c >= a);
-    return c;
-  }
+    function add(uint256 a, uint256 b) internal pure returns (uint256) {
+        uint256 c = a + b;
+        assert(c >= a);
+        return c;
+    }
 }
 
 contract Sharable is SmartToken {
     using SafeMath for uint256;
     uint256 sharedPool;
-	uint256 totalTokenAge;
-	uint256 STARTTIME;
+    uint256 globalTokenAge;
+    uint256 globalLastShareTime;
 
-    mapping(address => uint256) lastTxTime;
+    mapping(address => uint256) lastShareTime;
+    mapping(address => uint256) tokenAge;
 
-	constructor() public {
-		STARTTIME = now;
-	}
+    constructor() public {
+        globalTokenAge = 0;
+        globalLastShareTime = now;
+    }
 
-    function share(address _address) public {
+    function updateGlobalTokenAge() internal {
+        globalTokenAge += (now - globalLastShareTime) * totalSupply;
+        globalLastShareTime = now;
+    }
 
+    function updateTokenAge(address _address) internal {
+        tokenAge[_address] += (now - lastShareTime[_address]) * balanceOf[_address];    
+        lastShareTime[_address] = now;
+    }
+
+    function share(address _address) public {    
+        updateGlobalTokenAge();
+        updateTokenAge(_address);
+        uint256 delta = tokenAge[_address] / globalTokenAge * sharedPool;        
+        _address.transfer(delta);
+        sharedPool -= delta;        
+        globalTokenAge -= tokenAge[_address];
+        tokenAge[_address] = 0;
     }
 
     function setShared(address _address) internal returns (bool) {
+        /*
         uint256 ownedTime;
         uint256 addEth;
         uint256 amount;
@@ -81,27 +100,26 @@ contract Sharable is SmartToken {
             if (amount > 0) {
                 addEth = 0;
                 _address.transfer(amount);
-/*				if(!_address.transfer(amount)) {
+				if(!_address.transfer(amount)) {
 					return false;
-				}*/
+				}
 			}
             lastTxTime[_address] = now; 
         }
         return true;
+        */
     }
 
     function transfer(address _to, uint256 _value) public transfersAllowed returns (bool success) {
-        setShared(msg.sender);
-        setShared(_to);
-
+        updateTokenAge(msg.sender);
+        updateTokenAge(_to);
         assert(super.transfer(_to, _value));
         return true;
     }
  
     function transferFrom(address _from, address _to, uint256 _value) public transfersAllowed returns (bool success) {
-        setShared(_from);
-        setShared(_to);
-
+        updateTokenAge(msg.sender);
+        updateTokenAge(_to);
         assert(super.transferFrom(_from, _to, _value));
         return true;
 	}
