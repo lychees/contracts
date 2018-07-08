@@ -43,7 +43,7 @@ contract Sharable is SmartToken {
         return true;
     }
 
-    function getEth() public {
+    function getEth() public returns (bool) {
         uint256 amount = ownedEth[msg.sender];
 
         if(amount > 0) {
