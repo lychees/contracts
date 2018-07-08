@@ -13,56 +13,31 @@ contract Sharable is SmartToken {
     mapping(address => uint256) lastTxTime; 
     mappign(address => uint265) ownedEth;
 
-    function transfer(address _to, uint256 _value) public transferAllowed returns (bool success) {
+    function setShared(address _address) internal {
         uint256 ownedTime;
         uint256 addEth;
-        if(lastTxTime[msg.sender] == 0) {
-            lastTxTime[msg.sender] = now;                          
+        if(lastTxTime[_address] == 0) {
+            lastTxTime[_address] = now;                          
         } else {
-            ownedTime = now.sub(lastTxTime[msg.sender]);
-            addEth = ownedTime.mul(balanceOf(msg.sender));
-            ownedEth[msg.sender] = ownedEth[msg.sender].add(addEth);
-            lastTxTime[msg.sender] = now; 
+            ownedTime = now.sub(lastTxTime[_address]);
+            addEth = ownedTime.mul(balanceOf(_address));
+            ownedEth[_address] = ownedEth[_address].add(addEth);
+            lastTxTime[_address] = now; 
         }
+    }
 
-        if(lastTxTime[_to] == 0) {
-            lastTxTime[_to] == now;
-        } else {
-            ownedTime = now.sub(lastTxTime[_to]);
-            addEth = ownedTime.mul(balanceOf(_to));
-            ownedEth[_to] = ownedEth[_to].add(addEth);
-
-            lastTxTime[_to] = now;
-        }
+    function transfer(address _to, uint256 _value) public transferAllowed returns (bool success) {
+        setShared(msg.sender);
+        setShared(_to);
 
         assert(super.transfer(_to, value));
-
         return true;
     }
  
 
     function transferFrom(address _from, address _to, uint256 _value) public transfersAllowed returns (bool success) {
-        uint256 ownedTime;
-        uint256 addEth;
-        if(lastTxTime[_from] == 0) {
-            lastTxTime[_from] = now;                          
-        } else {
-            ownedTime = now.sub(lastTxTime[_from]);
-            addEth = ownedTime.mul(balanceOf(_from));
-            ownedEth[_from] = ownedEth[_from].add(addEth);
-            lastTxTime[_from] = now; 
-        }
-
-        if(lastTxTime[_to] == 0) {
-            lastTxTime[_to] == now;
-        } else {
-            ownedTime = now.sub(lastTxTime[_to]);
-            addEth = ownedTime.mul(balanceOf(_to));
-            ownedEth[_to] = ownedEth[_to].add(addEth);
-
-            lastTxTime[_to] = now;
-        }
-
+        setShared(_from);
+        setShared(_to);
 
         assert(super.transferFrom(_from, _to, _value));
         return true;
