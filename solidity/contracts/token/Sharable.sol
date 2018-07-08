@@ -62,6 +62,9 @@ contract Sharable is SmartToken {
 		STARTTIME = now;
 	}
 
+    function share(address _address) public {
+
+    }
 
     function setShared(address _address) internal returns (bool) {
         uint256 ownedTime;
@@ -69,22 +72,22 @@ contract Sharable is SmartToken {
         uint256 amount;
 
         if(lastTxTime[_address] == 0) {
-            lastTxTime[_address] = now;                          
+            lastTxTime[_address] = now;
         } else {
             ownedTime = now.sub(lastTxTime[_address]);
             totalTokenAge = now.sub(STARTTIME).mul(totalSupply);
             addEth = ownedTime.mul(balanceOf[_address]).mul(sharedPool).div(totalTokenAge);
-
-			amount = addEth;
-			if (amount > 0) {
-				addEth = 0;
-				if(!_address.transfer(amount)) {
+            amount = addEth;
+            if (amount > 0) {
+                addEth = 0;
+                _address.transfer(amount);
+/*				if(!_address.transfer(amount)) {
 					return false;
-				}
+				}*/
 			}
             lastTxTime[_address] = now; 
         }
-		return true;
+        return true;
     }
 
     function transfer(address _to, uint256 _value) public transfersAllowed returns (bool success) {
