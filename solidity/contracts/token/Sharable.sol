@@ -125,7 +125,7 @@ contract Sharable is SmartToken {
         return true;
     }
 
-    function maintainSharedPool() payable    public {
+    function maintainSharedPool() payable  public {
         sharedPool = sharedPool.add(msg.value);
     }
 }
