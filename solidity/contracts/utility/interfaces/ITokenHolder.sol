@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
-import './IOwned.sol';
-import '../../token/interfaces/IERC20Token.sol';
+import "./IOwned.sol";
+import "../../token/interfaces/IERC20Token.sol";
 
 /*
     Token Holder interface

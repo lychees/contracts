@@ -1,5 +1,5 @@
 pragma solidity ^0.4.23;
-import '../token/ERC20Token.sol';
+import "../token/ERC20Token.sol";
 
 /*
     Test token with predefined supply

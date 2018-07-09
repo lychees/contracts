@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
-import '../token/SmartTokenController.sol';
-import '../token/interfaces/ISmartToken.sol';
+import "../token/SmartTokenController.sol";
+import "../token/interfaces/ISmartToken.sol";
 
 /*
     Crowdsale v0.1
@@ -16,7 +16,7 @@ contract CrowdsaleController is SmartTokenController {
     uint256 public constant BTCS_ETHER_CAP = 50000 ether;       // maximum bitcoin suisse ether contribution
     uint256 public constant MAX_GAS_PRICE = 50000000000 wei;    // maximum gas price for contribution transactions
 
-    string public version = '0.1';
+    string public version = "0.1";
 
     uint256 public startTime = 0;                   // crowdsale start time (in seconds)
     uint256 public endTime = 0;                     // crowdsale end time (in seconds)

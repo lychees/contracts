@@ -1,7 +1,7 @@
 pragma solidity ^0.4.23;
-import './Owned.sol';
-import './Utils.sol';
-import './interfaces/IWhitelist.sol';
+import "./Owned.sol";
+import "./Utils.sol";
+import "./interfaces/IWhitelist.sol";
 
 /**
     Whitelist

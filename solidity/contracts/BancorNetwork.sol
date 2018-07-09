@@ -1,16 +1,16 @@
 pragma solidity ^0.4.23;
-import './IBancorNetwork.sol';
-import './ContractIds.sol';
-import './FeatureIds.sol';
-import './converter/interfaces/IBancorConverter.sol';
-import './converter/interfaces/IBancorFormula.sol';
-import './converter/interfaces/IBancorGasPriceLimit.sol';
-import './utility/TokenHolder.sol';
-import './utility/interfaces/IContractRegistry.sol';
-import './utility/interfaces/IContractFeatures.sol';
-import './utility/interfaces/IWhitelist.sol';
-import './token/interfaces/IEtherToken.sol';
-import './token/interfaces/ISmartToken.sol';
+import "./IBancorNetwork.sol";
+import "./ContractIds.sol";
+import "./FeatureIds.sol";
+import "./converter/interfaces/IBancorConverter.sol";
+import "./converter/interfaces/IBancorFormula.sol";
+import "./converter/interfaces/IBancorGasPriceLimit.sol";
+import "./utility/TokenHolder.sol";
+import "./utility/interfaces/IContractRegistry.sol";
+import "./utility/interfaces/IContractFeatures.sol";
+import "./utility/interfaces/IWhitelist.sol";
+import "./token/interfaces/IEtherToken.sol";
+import "./token/interfaces/ISmartToken.sol";
 
 /*
     The BancorNetwork contract is the main entry point for bancor token conversions.

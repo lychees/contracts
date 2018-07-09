@@ -1,5 +1,5 @@
 pragma solidity ^0.4.23;
-import '../utility/interfaces/IContractFeatures.sol';
+import "../utility/interfaces/IContractFeatures.sol";
 
 /*
     Test helper that uses the ContractFeatures contract

@@ -1,8 +1,8 @@
 pragma solidity ^0.4.23;
-import './ERC20Token.sol';
-import './interfaces/IEtherToken.sol';
-import '../utility/Owned.sol';
-import '../utility/TokenHolder.sol';
+import "./ERC20Token.sol";
+import "./interfaces/IEtherToken.sol";
+import "../utility/Owned.sol";
+import "../utility/TokenHolder.sol";
 
 /**
     Ether tokenization contract
@@ -20,7 +20,7 @@ contract EtherToken is IEtherToken, Owned, ERC20Token, TokenHolder {
     */
     constructor()
         public
-        ERC20Token('Ether Token', 'ETH', 18) {
+        ERC20Token("Ether Token", "ETH", 18) {
     }
 
     /**
