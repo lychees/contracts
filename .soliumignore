@@ -1,3 +1,4 @@
 node_modules
 solidity/contracts/BancorNetwork.sol
 solidity/contracts/converter
+solidity/contracts/crowdsale
