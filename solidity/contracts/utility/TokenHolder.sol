@@ -1,8 +1,8 @@
 pragma solidity ^0.4.23;
-import './Owned.sol';
-import './Utils.sol';
-import './interfaces/ITokenHolder.sol';
-import '../token/interfaces/IERC20Token.sol';
+import "./Owned.sol";
+import "./Utils.sol";
+import "./interfaces/ITokenHolder.sol";
+import "../token/interfaces/IERC20Token.sol";
 
 /*
     We consider every contract to be a 'token holder' since it's currently not possible

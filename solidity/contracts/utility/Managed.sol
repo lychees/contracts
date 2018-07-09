@@ -1,5 +1,5 @@
 pragma solidity ^0.4.23;
-import './Owned.sol';
+import "./Owned.sol";
 
 /*
     Provides support and utilities for contract management

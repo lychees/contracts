@@ -1,7 +1,7 @@
 pragma solidity ^0.4.23;
-import './interfaces/IBancorGasPriceLimit.sol';
-import '../utility/Owned.sol';
-import '../utility/Utils.sol';
+import "./interfaces/IBancorGasPriceLimit.sol";
+import "../utility/Owned.sol";
+import "../utility/Utils.sol";
 
 /*
     The BancorGasPriceLimit contract serves as an extra front-running attack mitigation mechanism.

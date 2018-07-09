@@ -1,9 +1,9 @@
 pragma solidity ^0.4.23;
-import './interfaces/IBancorFormula.sol';
-import '../utility/Utils.sol';
+import "./interfaces/IBancorFormula.sol";
+import "../utility/Utils.sol";
 
 contract BancorFormula is IBancorFormula, Utils {
-    string public version = '0.3';
+    string public version = "0.3";
 
     uint256 private constant ONE = 1;
     uint32 private constant MAX_WEIGHT = 1000000;

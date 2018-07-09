@@ -1,8 +1,8 @@
 pragma solidity ^0.4.23;
-import '../utility/TokenHolder.sol';
-import '../utility/Owned.sol';
-import '../utility/Utils.sol';
-import '../token/interfaces/ISmartToken.sol';
+import "../utility/TokenHolder.sol";
+import "../utility/Owned.sol";
+import "../utility/Utils.sol";
+import "../token/interfaces/ISmartToken.sol";
 
 /*
     BancorPriceFloor v0.1
@@ -15,7 +15,7 @@ contract BancorPriceFloor is Owned, TokenHolder {
     uint256 public constant TOKEN_PRICE_N = 1;      // crowdsale price in wei (numerator)
     uint256 public constant TOKEN_PRICE_D = 100;    // crowdsale price in wei (denominator)
 
-    string public version = '0.1';
+    string public version = "0.1";
     ISmartToken public token; // smart token the contract allows selling
 
     /**

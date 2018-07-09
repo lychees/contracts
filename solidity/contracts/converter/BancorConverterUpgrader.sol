@@ -1,12 +1,12 @@
 pragma solidity ^0.4.23;
-import './interfaces/IBancorConverter.sol';
-import './interfaces/IBancorConverterFactory.sol';
-import '../utility/Owned.sol';
-import '../utility/interfaces/IContractRegistry.sol';
-import '../utility/interfaces/IContractFeatures.sol';
-import '../utility/interfaces/IWhitelist.sol';
-import '../ContractIds.sol';
-import '../FeatureIds.sol';
+import "./interfaces/IBancorConverter.sol";
+import "./interfaces/IBancorConverterFactory.sol";
+import "../utility/Owned.sol";
+import "../utility/interfaces/IContractRegistry.sol";
+import "../utility/interfaces/IContractFeatures.sol";
+import "../utility/interfaces/IWhitelist.sol";
+import "../ContractIds.sol";
+import "../FeatureIds.sol";
 
 /*
     Bancor converter dedicated interface
@@ -54,7 +54,7 @@ contract IBancorConverterExtended is IBancorConverter, IOwned {
     The address of the new converter is available in the ConverterUpgrade event.
 */
 contract BancorConverterUpgrader is Owned, ContractIds, FeatureIds {
-    string public version = '0.3';
+    string public version = "0.3";
 
     IContractRegistry public registry;                      // contract registry contract address
 

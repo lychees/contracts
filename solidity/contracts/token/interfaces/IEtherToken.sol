@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
-import './IERC20Token.sol';
-import '../../utility/interfaces/ITokenHolder.sol';
+import "./IERC20Token.sol";
+import "../../utility/interfaces/ITokenHolder.sol";
 
 /*
     Ether Token interface

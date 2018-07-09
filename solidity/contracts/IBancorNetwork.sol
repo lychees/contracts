@@ -1,5 +1,5 @@
 pragma solidity ^0.4.23;
-import './token/interfaces/IERC20Token.sol';
+import "./token/interfaces/IERC20Token.sol";
 
 /*
     Bancor Network interface

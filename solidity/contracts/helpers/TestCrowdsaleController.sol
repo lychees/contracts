@@ -1,5 +1,5 @@
 pragma solidity ^0.4.23;
-import '../crowdsale/CrowdsaleController.sol';
+import "../crowdsale/CrowdsaleController.sol";
 
 /*
     Test crowdsale controller with start time < now < end time

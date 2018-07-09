@@ -1,16 +1,16 @@
 pragma solidity ^0.4.23;
-import './interfaces/IBancorConverter.sol';
-import './interfaces/IBancorFormula.sol';
-import '../IBancorNetwork.sol';
-import '../ContractIds.sol';
-import '../FeatureIds.sol';
-import '../utility/Managed.sol';
-import '../utility/Utils.sol';
-import '../utility/interfaces/IContractRegistry.sol';
-import '../utility/interfaces/IContractFeatures.sol';
-import '../token/SmartTokenController.sol';
-import '../token/interfaces/ISmartToken.sol';
-import '../token/interfaces/IEtherToken.sol';
+import "./interfaces/IBancorConverter.sol";
+import "./interfaces/IBancorFormula.sol";
+import "../IBancorNetwork.sol";
+import "../ContractIds.sol";
+import "../FeatureIds.sol";
+import "../utility/Managed.sol";
+import "../utility/Utils.sol";
+import "../utility/interfaces/IContractRegistry.sol";
+import "../utility/interfaces/IContractFeatures.sol";
+import "../token/SmartTokenController.sol";
+import "../token/interfaces/ISmartToken.sol";
+import "../token/interfaces/IEtherToken.sol";
 
 /*
     Bancor Converter v0.10
@@ -45,8 +45,8 @@ contract BancorConverter is IBancorConverter, SmartTokenController, Managed, Con
         bool isSet;                     // used to tell if the mapping element is defined
     }
 
-    string public version = '0.10';
-    string public converterType = 'bancor';
+    string public version = "0.10";
+    string public converterType = "bancor";
 
     IContractRegistry public registry;                  // contract registry contract
     IWhitelist public conversionWhitelist;              // whitelist contract with list of addresses that are allowed to use the converter
