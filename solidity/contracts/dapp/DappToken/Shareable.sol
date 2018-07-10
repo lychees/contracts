@@ -3,8 +3,6 @@ pragma solidity ^0.4.23;
 import "../../bancor/token/SmartToken.sol";
 
 /*
- * @param sharedPool is the total shared for every day
- * @param lastTxTime is the address last tx time point
  * @param ownedEth is amount eth(in wei) multiply time(in second) between recent two tx.
  */
 
@@ -52,7 +50,6 @@ library SafeMath {
 
 contract Shareable is SmartToken {
     using SafeMath for uint256;
-    uint256 sharedPool;
     uint256 globalTokenAge;
     uint256 globalLastShareTime;
 
@@ -77,9 +74,9 @@ contract Shareable is SmartToken {
     function share(address _address) public {    
         updateGlobalTokenAge();
         updateTokenAge(_address);
-        uint256 delta = tokenAge[_address] / globalTokenAge * sharedPool;        
+        uint256 delta = tokenAge[_address] / globalTokenAge * this.balance;        
         _address.transfer(delta);
-        sharedPool -= delta;        
+        this.balance -= delta;        
         globalTokenAge -= tokenAge[_address];
         tokenAge[_address] = 0;
     }
