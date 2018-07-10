@@ -229,7 +229,8 @@ contract LuckyPackage is ERC721{
       _transfer(msg.sender, owner, _tokenId);
       
       /* get a random number. */
-      uint256 result = uint(keccak256(block.timestamp + block.difficulty)); // assume result is the random number
+      // uint256 result = uint(keccak256(block.timestamp + block.difficulty)); // assume result is the random number       
+      uint256 result = uint256(keccak256(abi.encodePacked(block.difficulty, now)));
       result %= sigmaRatio;
       uint256 rt;
       for (uint256 i = 0; i < packageSize; i++) {
