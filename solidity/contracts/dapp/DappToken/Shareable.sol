@@ -84,32 +84,6 @@ contract Shareable is SmartToken {
         tokenAge[_address] = 0;
     }
 
-    function setShared(address _address) internal returns (bool) {
-        /*
-        uint256 ownedTime;
-        uint256 addEth;
-        uint256 amount;
-
-        if(lastTxTime[_address] == 0) {
-            lastTxTime[_address] = now;
-        } else {
-            ownedTime = now.sub(lastTxTime[_address]);
-            totalTokenAge = now.sub(STARTTIME).mul(totalSupply);
-            addEth = ownedTime.mul(balanceOf[_address]).mul(sharedPool).div(totalTokenAge);
-            amount = addEth;
-            if (amount > 0) {
-                addEth = 0;
-                _address.transfer(amount);
-				if(!_address.transfer(amount)) {
-					return false;
-				}
-			}
-            lastTxTime[_address] = now; 
-        }
-        return true;
-        */
-    }
-
     function transfer(address _to, uint256 _value) public transfersAllowed returns (bool success) {
         updateTokenAge(msg.sender);
         updateTokenAge(_to);
