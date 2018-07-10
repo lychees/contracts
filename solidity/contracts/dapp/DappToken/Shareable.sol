@@ -74,9 +74,8 @@ contract Shareable is SmartToken {
     function share(address _address) public {    
         updateGlobalTokenAge();
         updateTokenAge(_address);
-        uint256 delta = tokenAge[_address] / globalTokenAge * this.balance;        
-        _address.transfer(delta);
-        this.balance -= delta;        
+        uint256 delta = tokenAge[_address] / globalTokenAge * address(this).balance;        
+        _address.transfer(delta);   
         globalTokenAge -= tokenAge[_address];
         tokenAge[_address] = 0;
     }
