@@ -1,11 +1,11 @@
 pragma solidity ^0.4.23;
-import './interfaces/IERC20Token.sol';
-import '../utility/TokenHolder.sol';
+import './interfaces/IERC875Token.sol';
+import '../lib/OwnerableContract.sol';
 
 /**
     ERC875 Standard Token implementation
 */
-contract ERC875Token is IERC875Token, TokenHolder {
+contract ERC875Token is IERC875Token, OwnerableContract {
     uint256 totalTickets;
     mapping(address => uint256[]) inventory;
     uint16 ticketIndex = 0; //to track mapping in tickets
@@ -20,7 +20,7 @@ contract ERC875Token is IERC875Token, TokenHolder {
     event TransferFrom(address indexed _from, address indexed _to, uint256 _value);
     
     // example: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], "MJ comeback", 1603152000, "MJC", "0x007bEe82BDd9e866b2bd114780a47f2261C684E3"
-    function Token(
+    constructor(
         uint256[] numberOfTokens,
         string evName,
         uint256 expiry,
@@ -157,7 +157,7 @@ contract ERC875Token is IERC875Token, TokenHolder {
     }
 
     function transferFrom(address _from, address _to, uint256[] tokenIndices)
-        adminOnly public
+        onlyAdmins public
     {
         bool isadmin = msg.sender == admin;
         for(uint256 i = 0; i < tokenIndices.length; i++)
