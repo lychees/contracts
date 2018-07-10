@@ -138,5 +138,4 @@ contract ERC721 is ERC721Interface, OwnerableContract{
         uint256 id = total;
         ownerOfToken[id] = to;
     }      
-
 }
