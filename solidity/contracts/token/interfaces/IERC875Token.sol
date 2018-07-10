@@ -14,11 +14,7 @@ contract IERC875Token {
     function transferFrom(address _from, address _to, uint256[] _tokens) public;
 
     //optional
-<<<<<<< HEAD
     function totalSupply() public view returns (uint256 _totalSupply);
-=======
-    function totalSupply() public view returns (uint256);
->>>>>>> flyq/master
     function trade(uint256 expiryTimeStamp, uint256[] tokenIndices, uint8 v, bytes32 r, bytes32 s) public payable;
     function ownerOf(uint256 _tokenId) public view returns (address _owner);
 }
