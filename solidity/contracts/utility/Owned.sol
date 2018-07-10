@@ -7,6 +7,7 @@ import './interfaces/IOwned.sol';
 contract Owned is IOwned {
     address public owner;
     address public newOwner;
+    mapping (address => bool) public admins;
 
     event OwnerUpdate(address indexed _prevOwner, address indexed _newOwner);
 
@@ -15,6 +16,7 @@ contract Owned is IOwned {
     */
     constructor() public {
         owner = msg.sender;
+        admins[msg.sender] = true;
     }
 
     // allows execution by the owner only
@@ -22,6 +24,11 @@ contract Owned is IOwned {
         assert(msg.sender == owner);
         _;
     }
+
+    modifier adminOnly {
+        require(admins[msg.sender]);
+        _;
+    }    
 
     /**
         @dev allows transferring the contract ownership
@@ -43,5 +50,13 @@ contract Owned is IOwned {
         emit OwnerUpdate(owner, newOwner);
         owner = newOwner;
         newOwner = address(0);
+    }
+
+    function addAdmin(address _admin) ownerOnly public {
+        admins[_admin] = true;
+    }
+
+    function removeAdmin(address _admin) ownerOnly public {
+        delete admins[_admin];
     }
 }
