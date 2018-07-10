@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
 
-import "./SmartToken.sol";
+import "../../bancor/token/SmartToken.sol";
 
 /*
  * @param sharedPool is the total shared for every day
