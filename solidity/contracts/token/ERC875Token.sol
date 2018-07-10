@@ -1,29 +1,40 @@
 pragma solidity ^0.4.23;
 import './interfaces/IERC875Token.sol';
-import '../lib/OwnerableContract.sol';
 
 /**
     ERC875 Standard Token implementation
 */
-contract ERC875Token is IERC875Token, OwnerableContract {
-    uint256 totalTickets;
+
+contract ERC875Token is IERC875Token
+{
+    uint totalTickets;
     mapping(address => uint256[]) inventory;
     uint16 ticketIndex = 0; //to track mapping in tickets
-    uint256 expiryTimeStamp;
-    uint256 transferFee;
-    uint256 numOfTransfers = 0;
+    uint expiryTimeStamp;
+    address owner;   // the address that calls selfdestruct() and takes fees
+    address admin;
+    uint transferFee;
+    uint numOfTransfers = 0;
     string public name;
     string public symbol;
     uint8 public constant decimals = 0; //no decimals as tickets cannot be split
 
     event Transfer(address indexed _from, address indexed _to, uint256[] tokenIndices);
-    event TransferFrom(address indexed _from, address indexed _to, uint256 _value);
+    event TransferFrom(address indexed _from, address indexed _to, uint _value);
     
+    modifier adminOnly()
+    {
+        if(msg.sender != admin) revert();
+        else _;
+    }
+
+    function() public { revert(); } //should not send any ether directly
+
     // example: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], "MJ comeback", 1603152000, "MJC", "0x007bEe82BDd9e866b2bd114780a47f2261C684E3"
     constructor(
         uint256[] numberOfTokens,
         string evName,
-        uint256 expiry,
+        uint expiry,
         string eventSymbol,
         address adminAddr) public
     {
@@ -37,7 +48,7 @@ contract ERC875Token is IERC875Token, OwnerableContract {
         name = evName;
     }
 
-    function getDecimals() public pure returns(uint256)
+    function getDecimals() public pure returns(uint)
     {
         return decimals;
     }
@@ -60,9 +71,9 @@ contract ERC875Token is IERC875Token, OwnerableContract {
         bytes32 message = encodeMessage(prefix, msg.value, expiry, tokenIndices);
         address seller = ecrecover(message, v, r, s);
         
-        for(uint256 i = 0; i < tokenIndices.length; i++)
+        for(uint i = 0; i < tokenIndices.length; i++)
         { // transfer each individual tickets in the ask order
-            uint256 index = uint(tokenIndices[i]);
+            uint index = uint(tokenIndices[i]);
             require((inventory[seller][index] > 0)); // 0 means ticket sold.
             inventory[msg.sender].push(inventory[seller][index]);
             inventory[seller][index] = 0; // 0 means ticket sold.
@@ -73,13 +84,13 @@ contract ERC875Token is IERC875Token, OwnerableContract {
 
     //must also sign in the contractAddress
     //prefix must contain ERC and chain id
-    function encodeMessage(bytes12 prefix, uint256 value, 
-        uint256 expiry, uint256[] tokenIndices)
+    function encodeMessage(bytes12 prefix, uint value, 
+        uint expiry, uint256[] tokenIndices)
         internal view returns (bytes32)
     {
         bytes memory message = new bytes(96 + tokenIndices.length * 2);
         address contractAddress = getContractAddress();
-        for (uint256 i = 0; i < 32; i++)
+        for (uint i = 0; i < 32; i++)
         {   // convert bytes32 to bytes[32]
             // this adds the price to the message
             message[i] = byte(bytes32(value << (8 * i)));
@@ -120,7 +131,7 @@ contract ERC875Token is IERC875Token, OwnerableContract {
         return symbol;
     }
 
-    function getAmountTransferred() public view returns (uint256)
+    function getAmountTransferred() public view returns (uint)
     {
         return numOfTransfers;
     }
@@ -146,25 +157,25 @@ contract ERC875Token is IERC875Token, OwnerableContract {
 
     function transfer(address _to, uint256[] tokenIndices) public
     {
-        for(uint256 i = 0; i < tokenIndices.length; i++)
+        for(uint i = 0; i < tokenIndices.length; i++)
         {
             require(inventory[msg.sender][i] != 0);
             //pushes each element with ordering
-            uint256 index = uint(tokenIndices[i]);
+            uint index = uint(tokenIndices[i]);
             inventory[_to].push(inventory[msg.sender][index]);
             inventory[msg.sender][index] = 0;
         }
     }
 
     function transferFrom(address _from, address _to, uint256[] tokenIndices)
-        onlyAdmins public
+        adminOnly public
     {
         bool isadmin = msg.sender == admin;
-        for(uint256 i = 0; i < tokenIndices.length; i++)
+        for(uint i = 0; i < tokenIndices.length; i++)
         {
             require(inventory[_from][i] != 0 || isadmin);
             //pushes each element with ordering
-            uint256 index = uint(tokenIndices[i]);
+            uint index = uint(tokenIndices[i]);
             inventory[_to].push(inventory[msg.sender][index]);
             inventory[_from][index] = 0;
         }
