@@ -8,7 +8,7 @@ contract CryptoHeroCard is ERC721 {
     mapping (uint256 => uint256) private characterOfToken;   
     
     uint256[] characterRatio = [500, 250, 10, 1];
-    uint256 drawPrice;
+    uint256 drawPrice = 1;
 
     function getCharacter(uint256 r) public returns (uint256 offset, uint256 count) {
         if (r <= characterRatio[1] * 36) {
