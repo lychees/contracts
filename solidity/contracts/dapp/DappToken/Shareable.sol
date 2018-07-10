@@ -56,9 +56,11 @@ contract Shareable is SmartToken {
     mapping(address => uint256) lastShareTime;
     mapping(address => uint256) tokenAge;
 
-    constructor() public {
-        globalTokenAge = 0;
-        globalLastShareTime = now;
+    constructor(string _name, string _symbol, uint8 _decimals)
+        public
+        SmartToken(_name, _symbol, _decimals) {
+            globalTokenAge = 0;
+            globalLastShareTime = now;
     }
 
     function updateGlobalTokenAge() internal {
