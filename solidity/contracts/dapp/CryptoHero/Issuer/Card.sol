@@ -71,7 +71,7 @@ contract CryptoHeroCard is ERC721 {
             if (tags[heroId] == 1) continue;
             tags[heroId] = 2;
             statusOfToken[id] |= 1;
-        }        
+        }
     }
   
     /* Issue */
