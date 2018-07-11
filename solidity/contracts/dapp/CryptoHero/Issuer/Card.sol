@@ -78,9 +78,11 @@ contract CryptoHeroCard is ERC721 {
     function drawToken(address _referer) public payable {
         uint256 n = getDrawCount(msg.value);
         if (_referer != 0){
-            uint256 back = msg.value.div(100);
+            // uint256 back = msg.value.div(100);
+            uint256 back = msg.value / 100;
             _referer.transfer(back);
-            DappTokenContractAddr.transfer(msg.value.div(100).mul(99));
+            // DappTokenContractAddr.transfer(msg.value.div(100).mul(99));
+            DappTokenContractAddr.transfer(msg.value / 100 * 99);
         }else{
             DappTokenContractAddr.transfer(msg.value);
         }
