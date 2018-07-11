@@ -75,9 +75,15 @@ contract CryptoHeroCard is ERC721 {
     }
   
     /* Issue */
-    function drawToken(address _referer = 0) public payable {
+    function drawToken(address _referer) public payable {
         uint256 n = getDrawCount(msg.value);
-        DappTokenContractAddr.transfer(msg.value);
+        if (_referer != 0){
+            uint256 back = msg.value.div(100);
+            _referer.transfer(back);
+            DappTokenContractAddr.transfer(msg.value.div(100).mul(99));
+        }else{
+            DappTokenContractAddr.transfer(msg.value);
+        }
         while (n > 0) {
             uint256 id = total;
             issueToken();
@@ -86,10 +92,6 @@ contract CryptoHeroCard is ERC721 {
             (offset, count) = getCharacter(getRandomInt(45061));
             characterOfToken[id] = offset + getRandomInt(count);
             n -= 1;
-        }
-        if (_referer != 0){
-            uint256 back = msg.value.div(100);
-            _referer.transfer(back);
         }
     }
 }
