@@ -95,4 +95,7 @@ contract Shareable is SmartToken {
         assert(super.transferFrom(_from, _to, _value));
         return true;
 	}
+
+    function () payable {
+    }        
 }
