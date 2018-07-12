@@ -123,7 +123,7 @@ contract CryptoHeroCard is ERC721 {
             uint256 count;
             (offset, count) = getCharacter(getRandomInt(45061));
             characterOfToken[id] = offset + getRandomInt(count);
-            emit DrawToken(msg.sender, id, characterOfToken[id];
+            emit DrawToken(msg.sender, id, characterOfToken[id]);
             n -= 1;
         }        
     }
