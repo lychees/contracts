@@ -14,7 +14,7 @@ contract CryptoHeroCard is ERC721 {
     event Draw(address from, uint256 tokenId, uint256 characterId);
     
     uint256[] characterRatio = [500, 250, 10, 1];
-    uint256 drawPrice = 1;
+    uint256 drawPrice = 0.00001 ether;
 
     function setDappTokenContractAddr(address _addr) public onlyOwner {
         DappTokenContractAddr = _addr;
@@ -36,6 +36,16 @@ contract CryptoHeroCard is ERC721 {
             return (109, 6);
         }
         return (0, 1);
+    }
+
+    // Maybe we should have a contract that only draw cards
+    function getDrawPrice() public view returns(uint256 result) {
+        return drawPrice;        
+    }
+
+    function getDrawCardsLeft() public view returns(uint256 result) {
+        // todo
+        return 1145141919810;
     }
 
     function getDrawCount(uint256 value) internal view returns (uint256 result) {
