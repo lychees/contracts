@@ -20,7 +20,10 @@ contract CryptoHeroCard is ERC721 {
         DappTokenContractAddr = _addr;
     }
 
-    function getCharacter(uint256 r) public returns (uint256 offset, uint256 count) {
+    function getCharacter(uint256 rnd) internal view
+    returns (uint256 offset, uint256 count) {
+        // to comply the rule: security/no-assign-params
+        uint256 r = rnd;
         if (r <= characterRatio[1] * 36) {
             return (1, 36);        
         }
@@ -35,17 +38,22 @@ contract CryptoHeroCard is ERC721 {
         return (0, 1);
     }
 
-    function getDrawCount(uint256 value) internal returns (uint256 result) {
+    function getDrawCount(uint256 value) internal view returns (uint256 result) {
         return value / drawPrice;
     }
 
     function getRandomInt(uint256 n) internal returns (uint256 result) {
       /* get a random number. */
-      return uint256(keccak256(abi.encodePacked(block.difficulty, now))) % n;
+        return uint256(keccak256(abi.encodePacked(block.difficulty, now))) % n;
     }
 
-    function isClaimed(uint256 tokenId) public returns (bool result){
+    function isClaimed(uint256 tokenId) view public returns (bool result){
         return statusOfToken[tokenId] & 1 == 0;
+    }
+
+    function getHeroByTokenId(uint256 tokenId) public view returns(uint256 result) {
+        uint256 heroId = characterOfToken[tokenId];
+        return heroId;
     }
 
     function claim() public {
