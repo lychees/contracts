@@ -9,6 +9,6 @@ import "./Shareable.sol";
  * @param ownedEth is amount eth(in wei) multiply time(in second) between recent two tx.
  */
 
-contract DappToken is Shareable {
+contract DappToken is Shareable, Minable{
 
 }
