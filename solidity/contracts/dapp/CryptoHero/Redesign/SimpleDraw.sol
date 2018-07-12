@@ -86,6 +86,7 @@ contract CryptoHeroDrawer {
     /* Issue */
     function rollDice(address _referer) public payable {
         uint256 n = getDrawCount(msg.value);
+        assert(n < currentDrawable);
         uint256[] memory heroIds = new uint256[](n);
         TokenContract issuer = TokenContract(tokenContract);
         
