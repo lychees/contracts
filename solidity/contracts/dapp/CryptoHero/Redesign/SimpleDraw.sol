@@ -80,7 +80,7 @@ contract CryptoHeroDrawer {
   
     function sendBonusTo(address _referer, uint256 _bonus) internal {
         _referer.transfer(_bonus / 2);
-        IDappTokenContract DappTokenContract = IDappTokenContract(DappTokenContractAddr);
+        IDappTokenContract DappTokenContract = IDappTokenContract(sharePoolContractAddr);
         DappTokenContract.transfer(_referer, DappTokenContract.getBonusTokenByEther(_bonus / 2));
     }
     /* Issue */
@@ -90,10 +90,9 @@ contract CryptoHeroDrawer {
         TokenContract issuer = TokenContract(tokenContract);
         
         if (_referer != 0){
-            uint256 reward = msg.value / 100;
-            _referer.transfer(reward);
-            // all the money goes to the Shares Pool Contract
-            sharePoolContractAddr.transfer(msg.value / 100 * 99); 
+            uint256 back = msg.value / 100;
+            sendBonusTo(_referer, back);
+            sharePoolContractAddr.transfer(msg.value / 100 * 99);
         }else{
             sharePoolContractAddr.transfer(msg.value);
         }
