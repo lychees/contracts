@@ -132,10 +132,12 @@ contract ERC721 is ERC721Interface, OwnerableContract{
     function issueToken() onlyAdmins() public {
         uint256 id = total;
         ownerOfToken[id] = msg.sender;   
+        total += 1;
     }
 
     function issueTokenAndTransfer(address to) onlyAdmins() public {
         uint256 id = total;
         ownerOfToken[id] = to;
+        total += 1;
     }      
 }
