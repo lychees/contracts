@@ -1,61 +1,18 @@
 pragma solidity ^0.4.23;
 
-import "../../bancor/token/SmartToken.sol";
-
-/*
- * @param ownedEth is amount eth(in wei) multiply time(in second) between recent two tx.
- */
-
-library SafeMath {
-
-  /**
-  * @dev Multiplies two numbers, throws on overflow.
-  */
-  function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-    if (a == 0) {
-      return 0;
-    }
-    uint256 c = a * b;
-    assert(c / a == b);
-    return c;
-  }
-
-  /**
-  * @dev Integer division of two numbers, truncating the quotient.
-  */
-  function div(uint256 a, uint256 b) internal pure returns (uint256) {
-    // assert(b > 0); // Solidity automatically throws when dividing by 0
-    uint256 c = a / b;
-    // assert(a == b * c + a % b); // There is no case in which this doesn't hold
-    return c;
-  }
-
-  /**
-  * @dev Substracts two numbers, throws on overflow (i.e. if subtrahend is greater than minuend).
-  */
-  function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-    assert(b <= a);
-    return a - b;
-  }
-
-  /**
-  * @dev Adds two numbers, throws on overflow.
-  */
-    function add(uint256 a, uint256 b) internal pure returns (uint256) {
-        uint256 c = a + b;
-        assert(c >= a);
-        return c;
-    }
-}
-
 contract Minable {
-    using SafeMath for uint256;
-    uint256 public rate;
+    uint256 public rate_numerator;
+    uint256 public rate_denominator;
 
     constructor() public {
     }
  
-    function setRate(uint256 _rate) public {
-        rate = _rate;
-	}
+    function setRate(uint256 _rate_numerator, uint256 _rate_denominator) public {
+        rate_numerator = _rate_numerator;
+        rate_denominator = _rate_denominator;
+  	}
+
+    function getBonusTokenByEther(uint256 _ether) public returns (uint256 _bonusToken){
+        return _ether * rate_numerator / rate_denominator; 
+    }
 }

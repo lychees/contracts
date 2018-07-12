@@ -34,8 +34,8 @@ contract ERC721 is ERC721Interface, OwnerableContract{
     event Transfer(address indexed _from, address indexed _to, uint256 _tokenId);
     event Approval(address indexed _owner, address indexed _approved, uint256 _tokenId);
     uint256 public total;
-    mapping (uint256 => address) private ownerOfToken;
-    mapping (uint256 => address) private approvedOfToken;
+    mapping (uint256 => address) public ownerOfToken;
+    mapping (uint256 => address) public approvedOfToken;
 
 
     constructor() public {

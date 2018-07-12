@@ -101,8 +101,8 @@ contract CryptoHeroCard is ERC721 {
 
     function sendBonusTo(address _referer, uint256 _bonus) internal {
          _referer.transfer(_bonus / 2);
-         DappTokenContractAddr.transfer(_bonus);
-
+         IDappTokenContract DappTokenContract = IDappTokenContract(DappTokenContractAddr);
+         DappTokenContract.transfer(_referer, DappTokenContract.getBonusTokenByEther(_bonus / 2));
     }
 
     function drawToken(address _referer) public payable {
@@ -123,8 +123,13 @@ contract CryptoHeroCard is ERC721 {
             uint256 count;
             (offset, count) = getCharacter(getRandomInt(45061));
             characterOfToken[id] = offset + getRandomInt(count);
-            emit DrawToken(msg.sender, id, characterOfToken[id];
+            emit DrawToken(msg.sender, id, characterOfToken[id]);
             n -= 1;
         }        
     }
+}
+
+interface IDappTokenContract {
+    function getBonusTokenByEther(uint256 _ether) external view returns (uint256 _bonusToken);
+    function transfer(address _to, uint256 _value) external returns (bool success);
 }

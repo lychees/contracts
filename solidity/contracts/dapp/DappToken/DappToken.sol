@@ -1,7 +1,7 @@
 pragma solidity ^0.4.23;
 
 import "./Shareable.sol";
-// import "./Minable.sol";
+import "./Minable.sol";
 
 /*
  * @param sharedPool is the total shared for every day
@@ -9,6 +9,6 @@ import "./Shareable.sol";
  * @param ownedEth is amount eth(in wei) multiply time(in second) between recent two tx.
  */
 
-contract DappToken is Shareable, Minable{
+contract DappToken is Shareable, Minable {
 
 }
