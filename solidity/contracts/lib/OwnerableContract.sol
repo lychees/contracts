@@ -27,7 +27,7 @@ contract OwnerableContract{
     modifier onlyAdmins() {
         require(
             admins[msg.sender],
-            "Only owner can call this function."
+            "Only admin can call this function."
         );
         _;
     }    
