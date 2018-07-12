@@ -11,7 +11,7 @@ contract CryptoHeroCard is ERC721 {
 
     // Events
     event Claim(address from);
-    event Draw(address from);
+    event Draw(address from, uint256 tokenId, uint256 characterId);
     
     uint256[] characterRatio = [500, 250, 10, 1];
     uint256 drawPrice = 1;
@@ -101,6 +101,7 @@ contract CryptoHeroCard is ERC721 {
             uint256 count;
             (offset, count) = getCharacter(getRandomInt(45061));
             characterOfToken[id] = offset + getRandomInt(count);
+            emit Draw(msg.sender, id, characterOfToken[id]);
             n -= 1;
         }
     }
