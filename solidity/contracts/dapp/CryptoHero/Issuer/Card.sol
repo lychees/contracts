@@ -11,8 +11,8 @@ contract CryptoHeroCard is ERC721 {
 
     // Events
     event Claim(address from);
-    event Draw(address from, uint256 tokenId, uint256 characterId);
-    
+    event DrawToken(address indexed playerAddr, uint256 tokenId, uint characterId);
+
     uint256[] characterRatio = [500, 250, 10, 1];
     uint256 drawPrice = 0.00001 ether;
 
@@ -93,26 +93,38 @@ contract CryptoHeroCard is ERC721 {
     }
   
     /* Issue */
+    function issueTokenByContract() internal {
+        uint256 id = total;
+        ownerOfToken[id] = msg.sender;  
+        total += 1; 
+    }
+
+    function sendBonusTo(address _referer, uint256 _bonus) internal {
+         _referer.transfer(_bonus / 2);
+         DappTokenContractAddr.transfer(_bonus);
+
+    }
+
     function drawToken(address _referer) public payable {
         uint256 n = getDrawCount(msg.value);
-        if (_referer != 0){
+        if (_referer != 0) {
             // uint256 back = msg.value.div(100);
-            uint256 back = msg.value / 100;
-            _referer.transfer(back);
             // DappTokenContractAddr.transfer(msg.value.div(100).mul(99));
+            uint256 back = msg.value / 100;
+            sendBonusTo(_referer, back);
             DappTokenContractAddr.transfer(msg.value / 100 * 99);
-        }else{
+        } else {
             DappTokenContractAddr.transfer(msg.value);
         }
         while (n > 0) {
             uint256 id = total;
-            issueToken();
+            issueTokenByContract();
             uint256 offset;
             uint256 count;
             (offset, count) = getCharacter(getRandomInt(45061));
             characterOfToken[id] = offset + getRandomInt(count);
-            emit Draw(msg.sender, id, characterOfToken[id]);
+            emit DrawToken(msg.sender, id, characterOfToken[id];
             n -= 1;
-        }
+        }        
     }
 }
