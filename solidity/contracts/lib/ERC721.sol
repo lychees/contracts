@@ -125,17 +125,17 @@ contract ERC721 is ERC721Interface, OwnerableContract{
 
     /* Read */    
     function isAdmin(address _admin) public view returns (bool _isAdmin) {
-      return admins[_admin];
+        return admins[_admin];
     }
 
     /* Issue */  
-    function issueToken() onlyAdmins() public {
-        uint256 id = total;
-        ownerOfToken[id] = msg.sender;   
+    function issueToken() internal onlyAdmins returns(uint256 result) {  
+        return issueTokenAndTransfer(msg.sender);
     }
 
-    function issueTokenAndTransfer(address to) onlyAdmins() public {
-        uint256 id = total;
+    function issueTokenAndTransfer(address to) internal onlyAdmins returns(uint256 id) {
+        id = total;
         ownerOfToken[id] = to;
+        total += 1;
     }      
 }
