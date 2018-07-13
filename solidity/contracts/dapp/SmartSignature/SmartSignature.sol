@@ -5,6 +5,7 @@ import '../../lib/AddressUtils.sol';
 
 contract SmartSignature is ERC721{
     using AddressUtils for address;
+    address DappTokenContractAddr;    
     mapping (uint256 => mapping(address => uint256)) public balanceOfSign;
 
     modifier onlySignOwner(uint256 _signId) {
@@ -23,6 +24,13 @@ contract SmartSignature is ERC721{
         // To be implement.
         uint256 value = balanceOfSign[_signId][msg.sender];
         balanceOfSign[_signId][msg.sender] = 0;
-        msg.sender.transfer(value);
+        msg.sender.transfer(value / 2);
+        IDappTokenContract DappTokenContract = IDappTokenContract(DappTokenContractAddr);
+        DappTokenContract.transfer(_referer, DappTokenContract.getBonusTokenByEther(value / 2));
     }
+}
+
+interface IDappTokenContract {
+    function getBonusTokenByEther(uint256 _ether) external view returns (uint256 _bonusToken);
+    function transfer(address _to, uint256 _value) external returns (bool success);
 }
